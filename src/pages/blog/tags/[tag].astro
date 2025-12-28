@@ -1,0 +1,145 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEO from '../../../components/SEO.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const uniqueTags = [...new Set(posts.flatMap((post) => post.data.tags))];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = posts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    
+    return {
+      params: { tag },
+      props: { posts: filteredPosts, tag },
+    };
+  });
+}
+
+const { posts, tag } = Astro.props;
+const allPosts = await getCollection('posts');
+const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))].sort();
+---
+
+<Layout title={`Tag: ${tag}`}>
+  <SEO 
+    title={`Posts tagged: ${tag}`}
+    description={`All posts with tag ${tag}`}
+  />
+  
+  <div class="blog-header">
+    <h1>Tag: {tag}</h1>
+    <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+    
+    <div class="tags-filter">
+      <span class="tags-label">Tags:</span>
+      <a href="/blog" class="tag">All</a>
+      {allTags.map(t => (
+        <a 
+          href={`/blog/tags/${t}`} 
+          class={`tag ${t === tag ? 'active' : ''}`}
+        >
+          {t}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <ul class="posts-list">
+    {posts.map((post) => (
+      <li class="post-item">
+        <span class="date">{post.data.date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        })}</span>
+        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>
+
+<style>
+  .blog-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(212, 167, 106, 0.2);
+  }
+
+  .blog-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .count {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .tags-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .tags-label {
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--color-primary);
+    border: 1px solid rgba(212, 167, 106, 0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .tag:hover, .tag.active {
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    border-color: var(--color-accent);
+  }
+
+  .posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-item {
+    display: flex;
+    gap: 2rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(212, 167, 106, 0.1);
+    align-items: baseline;
+  }
+
+  .post-item:last-child {
+    border-bottom: none;
+  }
+
+  .date {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+
+  .post-item a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 1.1rem;
+  }
+
+  .post-item a:hover {
+    color: var(--color-accent);
+  }
+</style>

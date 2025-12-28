@@ -1,0 +1,166 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+const searchData = posts.map(post => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags.join(' '),
+}));
+---
+
+<div class="search-container">
+  <input 
+    type="text" 
+    id="search-input" 
+    placeholder="Search articles..." 
+    class="search-input"
+  />
+  <div id="search-results" class="search-results"></div>
+</div>
+
+<script define:vars={{ searchData }}>
+  // Simple search implementation without external libraries
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  function normalizeText(text) {
+    return text.toLowerCase().trim();
+  }
+
+  function searchPosts(query) {
+    if (!query || query.length < 2) {
+      return [];
+    }
+
+    const normalizedQuery = normalizeText(query);
+    
+    return searchData
+      .filter(post => {
+        const titleMatch = normalizeText(post.title).includes(normalizedQuery);
+        const descMatch = normalizeText(post.description).includes(normalizedQuery);
+        const tagsMatch = normalizeText(post.tags).includes(normalizedQuery);
+        return titleMatch || descMatch || tagsMatch;
+      })
+      .slice(0, 5);
+  }
+
+  function renderResults(results) {
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="no-results">No results found</div>';
+      searchResults.classList.add('visible');
+      return;
+    }
+
+    searchResults.innerHTML = results
+      .map(post => `
+        <a href="/blog/${post.slug}" class="search-result-item">
+          <div class="result-title">${post.title}</div>
+          <div class="result-description">${post.description}</div>
+        </a>
+      `)
+      .join('');
+    
+    searchResults.classList.add('visible');
+  }
+
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value;
+    
+    if (query.length < 2) {
+      searchResults.classList.remove('visible');
+      return;
+    }
+
+    const results = searchPosts(query);
+    renderResults(results);
+  });
+
+  // Hide results when clicking outside the search
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      searchResults.classList.remove('visible');
+    }
+  });
+</script>
+
+<style>
+  .search-container {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--color-primary);
+    border: 2px solid rgba(212, 167, 106, 0.3);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+  }
+
+  .search-results.visible {
+    display: block;
+  }
+
+  .search-result-item {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(212, 167, 106, 0.2);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+  }
+
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-item:hover {
+    background-color: rgba(212, 167, 106, 0.1);
+  }
+
+  .result-title {
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .result-description {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+</style>
