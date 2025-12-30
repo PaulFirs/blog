@@ -38,7 +38,7 @@ const { title, description = "Programmer's Blog" } = Astro.props;
       <slot />
     </main>
     <footer>
-      <p>&copy; {new Date().getFullYear()} All rights reserved</p>
+      <p>&copy; {new Date().getFullYear()} Paul Firs</p>
     </footer>
   </body>
 </html>
@@ -123,10 +123,9 @@ const { title, description = "Programmer's Blog" } = Astro.props;
     background-color: var(--color-primary);
     color: #a0a0a0;
     text-align: center;
-    padding: 2rem;
-    border-top: 1px solid rgba(212, 167, 106, 0.2);
+    padding: 1rem;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto 0.5rem auto;
     width: 100%;
   }
 </style>
