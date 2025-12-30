@@ -16,7 +16,10 @@ const posts = (await getCollection('posts'))
   <section class="intro-section" style="margin-bottom:3rem;text-align:left;">
     <h1 style="text-align:left;">Paul Firs</h1>
     <h2 style="text-align:left;">Senior Embedded system</h2>
-    <p class="subtitle subtitle-box">A blog about programming, embedded systems, BareMetal development, and technology.</p>
+    <p class="subtitle subtitle-box" style="display:flex;align-items:center;gap:1em;">
+      <img src="/avatar.png" alt="Avatar" style="height:4em;width:auto;border-radius:0.7em;box-shadow:0 2px 8px rgba(0,0,0,0.10);margin-right:1em;" />
+      A blog about programming, embedded systems, BareMetal development, and technology.
+    </p>
   </section>
   {posts.length > 0 && (
     <section class="recent-posts">
