@@ -51,18 +51,18 @@ const { title, description = "Programmer's Blog" } = Astro.props;
   }
 
   header {
+    max-width: 1000px;
     background-color: var(--color-primary);
+    margin: 0.5rem auto 0;
     width: 100%;
     display: flex;
     justify-content: center;
-    max-width: 900px;
-    margin: 0 auto;
   }
 
   nav {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 1.5rem 2rem;
+    padding: 1rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -113,10 +113,10 @@ const { title, description = "Programmer's Blog" } = Astro.props;
 
   main {
     flex: 1;
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 1.2rem 0.8rem;
   }
 
   footer {
@@ -125,7 +125,7 @@ const { title, description = "Programmer's Blog" } = Astro.props;
     text-align: center;
     padding: 2rem;
     border-top: 1px solid rgba(212, 167, 106, 0.2);
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     width: 100%;
   }

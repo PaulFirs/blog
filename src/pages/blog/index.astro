@@ -19,17 +19,8 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
   />
   
   <div class="blog-header">
-    <h1>All Posts</h1>
+    <h2>Blog Articles</h2>
     <Search />
-    {allTags.length > 0 && (
-      <div class="tags-filter">
-        <span class="tags-label">Tags:</span>
-        <a href="/blog" class="tag active">All</a>
-        {allTags.map(tag => (
-          <a href={`/blog/tags/${tag}`} class="tag">{tag}</a>
-        ))}
-      </div>
-    )}
   </div>
 
   <ul class="posts-list">
@@ -44,13 +35,21 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
       </li>
     ))}
   </ul>
+
+  {allTags.length > 0 && (
+    <div class="tags-filter" style="margin-top:2.5rem;">
+      <span class="tags-label">Tags:</span>
+      <a href="/blog" class="tag active">All</a>
+      {allTags.map(tag => (
+        <a href={`/blog/tags/${tag}`} class="tag">{tag}</a>
+      ))}
+    </div>
+  )}
 </Layout>
 
 <style>
   .blog-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid rgba(212, 167, 106, 0.2);
+    margin-bottom: 0rem;
   }
 
   .blog-header h1 {
@@ -94,7 +93,7 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
 
   .post-item {
     display: flex;
-    gap: 2rem;
+    gap: 0.7rem;
     padding: 0.75rem 0;
     border-bottom: 1px solid rgba(212, 167, 106, 0.1);
     align-items: baseline;
@@ -106,9 +105,10 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
 
   .date {
     color: var(--color-text-muted);
-    font-size: 0.9rem;
-    min-width: 120px;
+    font-size: 1.05rem;
+    min-width: 80px;
     flex-shrink: 0;
+    margin-right: 0.5rem;
   }
 
   .post-item a {

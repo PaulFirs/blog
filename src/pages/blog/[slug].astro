@@ -26,7 +26,7 @@ const { Content } = await post.render();
   
   <article class="post">
     <header class="post-header">
-      <h1>{post.data.title}</h1>
+      <h2>{post.data.title}</h2>
       <div class="post-meta">
         <time datetime={post.data.date.toISOString()}>
           {post.data.date.toLocaleDateString('en-US', { 
@@ -56,8 +56,16 @@ const { Content } = await post.render();
 </Layout>
 
 <style>
+  main {
+    flex: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.2rem 0.8rem;
+  }
+
   .post {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -67,7 +75,7 @@ const { Content } = await post.render();
     border-bottom: 2px solid rgba(212, 167, 106, 0.2);
   }
 
-  .post-header h1 {
+  .post-header h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
   }

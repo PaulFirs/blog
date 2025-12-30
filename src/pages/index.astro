@@ -10,18 +10,17 @@ const posts = (await getCollection('posts'))
 
 <Layout title="Home">
   <SEO 
-    title="Programmer's Blog" 
-    description="Articles about programming, web development, and technology"
+    title="PaulFirs Blog" 
+    description="Articles about programming, embedded systems, BareMetal development, and technology"
   />
-  
-  <div class="hero">
-    <h1>Welcome</h1>
-    <p class="subtitle">A blog about programming and development</p>
-  </div>
-
+  <section class="intro-section" style="margin-bottom:3rem;text-align:left;">
+    <h1 style="text-align:left;">Paul Firs</h1>
+    <h2 style="text-align:left;">Senior Embedded system</h2>
+    <p class="subtitle subtitle-box">A blog about programming, embedded systems, BareMetal development, and technology.</p>
+  </section>
   {posts.length > 0 && (
     <section class="recent-posts">
-      <h2>Latest Posts</h2>
+      <h2>Recent Articles</h2>
       <ul class="posts-list">
         {posts.map((post) => (
           <li class="post-item">
@@ -34,22 +33,36 @@ const posts = (await getCollection('posts'))
           </li>
         ))}
       </ul>
-      <a href="/blog" class="view-all">All posts →</a>
     </section>
   )}
 </Layout>
 
 <style>
-  .hero {
+  h1 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-accent);
+  text-align: left;
+}
+
+  h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  text-align: left;
+}
+
+  .intro-section {
     text-align: center;
-    padding: 4rem 0;
+    padding: 0rem 0;
     border-bottom: 2px solid rgba(212, 167, 106, 0.2);
-    margin-bottom: 3rem;
   }
 
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+  .intro-section h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
   }
 
   .subtitle {
@@ -57,12 +70,16 @@ const posts = (await getCollection('posts'))
     color: var(--color-text-muted);
   }
 
+  .subtitle-box {
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.7em 1.2em;
+  background: rgba(212, 167, 106, 0.07);
+  display: inline-block;
+}
+
   .recent-posts {
     margin-top: 3rem;
-  }
-
-  .recent-posts h2 {
-    margin-bottom: 2rem;
   }
 
   .posts-list {
@@ -99,23 +116,5 @@ const posts = (await getCollection('posts'))
 
   .post-item a:hover {
     color: var(--color-accent);
-  }
-
-  .view-all {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: transparent;
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 600;
-    transition: background-color 0.2s, color 0.2s;
-  }
-
-  .view-all:hover {
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    opacity: 1;
   }
 </style>

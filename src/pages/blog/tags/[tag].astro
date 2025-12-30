@@ -31,7 +31,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))].sort();
   />
   
   <div class="blog-header">
-    <h1>Tag: {tag}</h1>
+    <h2>Tag: {tag}</h2>
     <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
     
     <div class="tags-filter">
