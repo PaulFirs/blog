@@ -13,6 +13,10 @@ sudo chown $USER:$USER /var/www/blog
 
 # Install nginx (if not already installed)
 sudo apt update && sudo apt install nginx -y
+
+# Allow runner user to run commands without password
+echo "$USER ALL=(ALL) NOPASSWD: /bin/cp, /bin/mkdir, /bin/chown, /usr/sbin/nginx, /bin/systemctl, /bin/ln" | sudo tee /etc/sudoers.d/github-runner
+sudo chmod 440 /etc/sudoers.d/github-runner
 ```
 
 ### 2. Install GitHub Runner on Server
