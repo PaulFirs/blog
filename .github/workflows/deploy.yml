@@ -1,0 +1,60 @@
+name: Deploy to Home Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy site to server
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: "dist/"
+          TARGET: "/var/www/blog"
+          EXCLUDE: "/node_modules/"
+
+      - name: Deploy nginx config
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "nginx.conf"
+          target: "/tmp/"
+
+      - name: Setup nginx
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            if [ ! -f /etc/nginx/sites-enabled/blog ]; then
+              sudo mv /tmp/nginx.conf /etc/nginx/sites-available/blog
+              sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
+              sudo nginx -t && sudo systemctl reload nginx
+              echo "Nginx configured!"
+            else
+              echo "Nginx already configured"
+            fi
