@@ -63,11 +63,13 @@ pre {
   overflow-x: auto;
   margin-bottom: 1rem;
   border: 1px solid rgba(212, 167, 106, 0.2);
+  line-height: 1;
 }
 
 code {
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
+  line-height: 1;
 }
 
 :not(pre) > code {
