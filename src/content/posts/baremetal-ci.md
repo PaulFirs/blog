@@ -2,7 +2,7 @@
 title: "CI/CD for Bare-Metal Embedded Development"
 description: "Practical guide to automating build, flashing, and testing of microcontrollers"
 date: 2025-11-05
-tags: ["Testing", "CI/CD", "Embedded"]
+tags: ["Testing", "CICD", "Embedded"]
 ---
 
 # CI/CD for Bare-Metal Embedded Development
