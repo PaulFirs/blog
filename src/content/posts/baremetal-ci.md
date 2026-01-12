@@ -5,17 +5,17 @@ date: 2025-11-05
 tags: ["Testing", "CICD", "Embedded"]
 ---
 
-# CI/CD for Bare-Metal Embedded Development
+## CI/CD for Bare-Metal Embedded Development
 
 > Practical guide to automating build, flashing, and testing of microcontrollers
 
-## Why is this needed?
+### Why is this needed?
 
 Many embedded developers are used to working without automated tests, relying on manual testing and debugging via a programmer. This seems like a simple and quick solution for small projects. However, as the codebase and team grow, this approach leads to critical problems: bugs return in new releases, system knowledge is stored only in developers' heads, and every change requires lengthy manual testing on a bench.
 
 CI/CD automation for embedded systems solves these problems, although it requires initial effort to set up the infrastructure.
 
-### The harsh truth about embedded development
+#### The harsh truth about embedded development
 
 **Typical excuses without tests:**
 - "It's a complex problem" = "I don't know where the bug is"
@@ -77,7 +77,7 @@ if (adc_value > threshold && !is_calibrating) {
 // 4. Now we have a regression test FOREVER
 ```
 
-### Benefits for management
+#### Benefits for management
 
 **Developer report without tests:**
 - "Fixed a bug with false alarm triggers"
@@ -91,7 +91,7 @@ if (adc_value > threshold && !is_calibrating) {
 - Code coverage: +15%
 - Guarantees: automatic check on every commit
 
-### Benefits for developers
+#### Benefits for developers
 
 **Without tests:**
 - "Need to remember all my workarounds" — cognitive load
@@ -105,7 +105,7 @@ if (adc_value > threshold && !is_calibrating) {
 - "Here's a test proving the hardware problem" — documented bug reports
 - "Flashed 10 boards with one commit" — automated routine
 
-### Benefits for the team
+#### Benefits for the team
 
 **Without tests:**
 - "Who broke this?" — looking for culprits instead of solving problems
@@ -119,7 +119,7 @@ if (adc_value > threshold && !is_calibrating) {
 - "Newcomer wrote working feature in a week" — fast onboarding
 - "Refactor confidently — 200 tests confirm functionality" — architecture evolution
 
-### Benefits for the product
+#### Benefits for the product
 
 **Without tests:**
 - "Release and pray" — Russian roulette with releases
@@ -133,7 +133,7 @@ if (adc_value > threshold && !is_calibrating) {
 - "Client bugs reproduced in 5 minutes" — fast response
 - "Adding features without fear" — development speed
 
-### Why might this not be needed?
+#### Why might this not be needed?
 
 If your goal is to become an "irreplaceable" developer, the only person who understands the code and can fix it, then automated testing really isn't for you. Tests make code transparent, understandable, and accessible to the entire team.
 
@@ -143,9 +143,9 @@ If your goal is to become an "irreplaceable" developer, the only person who unde
 - "Need deep context" = "I'm irreplaceable"
 - "This is legacy code" = "My personal family jewel"
 
-## General pipeline
+### General pipeline
 
-### What's required for minimal CI?
+#### What's required for minimal CI?
 
 The bare minimum is to at least build the project and flash the microcontroller. Sounds simple, but in practice situations often arise where a project builds for one developer but not for another. This can be due to different compiler versions, missing dependencies, or code changes that broke the build for certain environments.
 
@@ -153,7 +153,7 @@ Finding the cause of such problems can take hours. CI solves this problem: each 
 
 Let's examine the necessary tools with a concrete example.
 
-### Required components
+#### Required components
 
 1. **GitHub or GitLab** — version control system with CI/CD support. All examples in this article will be for GitHub. Simply create a new repository, we'll return to it later.
 
@@ -175,7 +175,7 @@ Let's examine the necessary tools with a concrete example.
 
 4. **Target device or development bench** — microcontroller or board on which tests will run.
 
-### CI Architecture for embedded systems
+#### CI Architecture for embedded systems
 
 ```
 ┌─────────────┐         ┌──────────────────┐         ┌────────────────┐
@@ -197,7 +197,7 @@ For regular software, cloud CI servers from GitHub/GitLab are sufficient — you
 
 If you only need to verify that firmware builds, standard GitHub Actions without hardware are sufficient. But for full functional testing, a self-hosted runner is needed.
 
-### Software on the server
+#### Software on the server
 
 1. **GitHub Actions Runner** — agent that executes CI tasks. Downloaded and registered in your repository through GitHub settings (Settings → Actions → Runners → New self-hosted runner). After registration, runs as a background service and waits for commands from GitHub. You can run multiple runners for different devices, marking them with tags.
 
@@ -222,9 +222,9 @@ sudo apt-get install python3 python3-pip
 pip3 install pylink-square
 ```
 
-## Project example with CI
+### Project example with CI
 
-### runit project structure
+#### runit project structure
 
 Let's examine a real example from the `runit` library — a framework for unit testing on bare-metal systems:
 
@@ -249,7 +249,7 @@ runit/
     └── selftest.c              # Linux tests
 ```
 
-### GitHub Actions Workflow
+#### GitHub Actions Workflow
 
 Create CI with five stages:
 1. Clone repository to server

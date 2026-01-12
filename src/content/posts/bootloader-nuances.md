@@ -26,6 +26,7 @@ Many people know this table:
 | x | 0 | Main Flash memory |  Main Flash memory is selected as boot space |
 | 0 | 1 | System memory | System memory is selected as boot space |
 | 1 | 1 | Embedded SRAM | Embedded SRAM is selected as boot space |
+
 This is exactly what describes from which address the MCU memory will be mapped. We need the memory to be mapped from the memory sector where the main firmware is stored (this is the first row of the table), namely address 0x08000000. If you want to run the bootloader from STM32 via UART (address 0x1FFF0000), then connect the boot1 pin to logic one (but not today).
 
 Address 0x08000000 is the address where our firmware starts. At this address, a pointer to the stack is stored (stack pointer register - SP). And at address 0x08000004, a pointer to the reset vector is stored.
