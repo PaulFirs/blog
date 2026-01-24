@@ -20,7 +20,7 @@ const searchData = posts.map(post => ({
   <div id="search-results" class="search-results"></div>
 </div>
 
-<script define:vars={{ searchData }}>
+<script is:inline define:vars={{ searchData }}>
   // Simple search implementation without external libraries
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
