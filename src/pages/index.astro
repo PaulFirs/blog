@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .slice(0, 10);
 ---
 
 <Layout title="Home">
@@ -38,6 +38,9 @@ const posts = (await getCollection('posts'))
           </li>
         ))}
       </ul>
+      <div class="view-all">
+        <a href="/blog" class="view-all-link">View all articles →</a>
+      </div>
     </section>
   )}
 </Layout>
@@ -121,5 +124,27 @@ const posts = (await getCollection('posts'))
 
   .post-item a:hover {
     color: var(--color-accent);
+  }
+
+  .view-all {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .view-all-link {
+    display: inline-block;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-accent);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .view-all-link:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
   }
 </style>
