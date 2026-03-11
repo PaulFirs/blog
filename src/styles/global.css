@@ -153,14 +153,14 @@ tr:nth-child(even) {
   gap: 1rem;
   padding: 1rem;
   margin: 1.5rem 0;
-  border: 2px solid var(--color-accent);
+  /* border: 2px solid var(--color-accent); */
   border-radius: 8px;
-  background-color: rgba(44, 62, 79, 0.3);
+  background-color: rgba(44, 62, 79, 0.1);
 }
 
 .question-box img {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   flex-shrink: 0;
 }
 
